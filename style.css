@@ -23,15 +23,63 @@ body {
 /* ========== NAVIGATION ========== */
 nav {
   display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
+  justify-content: center; /* center title */
+  padding: 16px 24px;
   align-items: center;
   border-bottom: 1px solid #222;
+  position: relative; /* for absolutely positioned hamburger */
 }
 
 nav h1 {
   color: var(--pink);
   letter-spacing: 2px;
+  text-align: center;
+}
+
+/* Sliding title */
+.title-container {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  max-width: min(60vw, calc(100% - 96px)); /* leave room for hamburger */
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.title-slide {
+  display: inline-block;
+  padding-right: 2.5rem;
+  white-space: nowrap;
+  flex: 0 0 auto; /* prevent shrinking/wrapping */
+  font-weight: 700;
+  animation: slide-left linear infinite;
+  animation-duration: 12s; /* overridden by JS to match content width */
+}
+
+@media (max-width: 480px) {
+  .title-container { max-width: calc(100% - 64px); }
+  .title-slide { font-size: 1.05rem; padding-right: 1.5rem; }
+}
+
+@keyframes slide-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* Respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .title-slide { animation: none; }
+}
+
+
+/* Desktop links visible by default (hidden only on small screens) */
+.nav-links {
+  display: flex;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  gap: 20px;
 }
 
 nav ul {
@@ -39,6 +87,101 @@ nav ul {
   display: flex;
   gap: 25px;
 }
+
+/* Make the hamburger visible on all screen sizes and position it to the left */
+.mobile-nav {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+}
+
+.hamburger {
+  font-size: 28px;
+  color: var(--pink);
+  cursor: pointer;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+}
+
+/* Global mobile menu styles so hamburger works on all screen sizes */
+.menu {
+  position: absolute;
+  top: 100%; /* drop down below the nav */
+  left: 0;
+  background: var(--black);
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid var(--pink);
+  z-index: 999;
+
+  /* slide-down animation */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: max-height 360ms cubic-bezier(.2,.9,.2,1),
+              opacity 220ms ease, transform 220ms ease;
+}
+
+.menu.open {
+  max-height: 480px; /* large enough to reveal all links */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu .menu-item {
+  border-top: 1px solid #222;
+}
+
+.menu .submenu-toggle {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 15px;
+  font-weight: 700;
+  background: transparent;
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+}
+
+.menu .submenu-toggle::after {
+  content: '▾';
+  float: right;
+  transition: transform 180ms ease;
+}
+
+.menu .submenu-toggle[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.menu .submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 320ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease;
+  opacity: 0;
+}
+
+.menu .submenu.open {
+  max-height: 360px;
+  opacity: 1;
+}
+
+.menu .submenu a {
+  display: block;
+  padding: 12px 24px;
+  color: var(--gray);
+  text-decoration: none;
+}
+
+.menu .submenu a:hover {
+  color: var(--white);
+  background: rgba(255,77,166,0.06);
+}
+
 
 nav ul li a {
   color: var(--gray);
@@ -203,12 +346,40 @@ footer {
     font-size: 2.2rem;
   }
 
+  /* Keep the nav laid out horizontally, center the title, and position hamburger absolutely */
   nav {
-    flex-direction: column;
-    gap: 15px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    position: relative;
   }
 
-  .products {
+  .nav-links {
+    display: none; /* hide desktop links on mobile */
+  }
+
+  .products  {
     grid-template-columns: 1fr;
   }
+
+  /* ========== MOBILE MENU (Hamburger) ========== */
+  .mobile-nav {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block; /* show hamburger on small screens */
+  }
+
+  .hamburger {
+    font-size: 30px;
+    color: var(--pink);
+    cursor: pointer;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+  }
+
+
 }
