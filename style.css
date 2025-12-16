@@ -1,12 +1,19 @@
-/* ========== VARIABLES ========== */
+/* =========================
+   VARIABLES
+========================= */
 :root {
   --pink: #ff4da6;
   --black: #0a0a0a;
   --white: #ffffff;
   --gray: #b3b3b3;
+  --transition-speed: 0.3s;
+  --card-bg: #111;
+  --hover-bg: rgba(255,77,166,0.06);
 }
 
-/* ========== RESET ========== */
+/* =========================
+   RESET & GLOBAL
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -20,14 +27,16 @@ body {
   line-height: 1.6;
 }
 
-/* ========== NAVIGATION ========== */
+/* =========================
+   NAVIGATION
+========================= */
 nav {
   display: flex;
-  justify-content: center; /* center title */
-  padding: 16px 24px;
+  justify-content: center;
   align-items: center;
+  padding: 16px 24px;
   border-bottom: 1px solid #222;
-  position: relative; /* for absolutely positioned hamburger */
+  position: relative;
 }
 
 nav h1 {
@@ -41,24 +50,18 @@ nav h1 {
   display: flex;
   gap: 1.5rem;
   align-items: center;
-  max-width: min(60vw, calc(100% - 96px)); /* leave room for hamburger */
+  max-width: min(60vw, calc(100% - 96px));
   overflow: hidden;
-  vertical-align: middle;
 }
 
 .title-slide {
   display: inline-block;
   padding-right: 2.5rem;
   white-space: nowrap;
-  flex: 0 0 auto; /* prevent shrinking/wrapping */
+  flex: 0 0 auto;
   font-weight: 700;
   animation: slide-left linear infinite;
-  animation-duration: 12s; /* overridden by JS to match content width */
-}
-
-@media (max-width: 480px) {
-  .title-container { max-width: calc(100% - 64px); }
-  .title-slide { font-size: 1.05rem; padding-right: 1.5rem; }
+  animation-duration: 12s; /* overridden by JS */
 }
 
 @keyframes slide-left {
@@ -66,13 +69,11 @@ nav h1 {
   to { transform: translateX(-100%); }
 }
 
-/* Respect user's motion preference */
 @media (prefers-reduced-motion: reduce) {
   .title-slide { animation: none; }
 }
 
-
-/* Desktop links visible by default (hidden only on small screens) */
+/* Desktop nav links */
 .nav-links {
   display: flex;
   position: absolute;
@@ -88,13 +89,22 @@ nav ul {
   gap: 25px;
 }
 
-/* Make the hamburger visible on all screen sizes and position it to the left */
+nav ul li a {
+  color: var(--gray);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+nav ul li a:hover {
+  color: var(--pink);
+}
+
+/* Mobile hamburger */
 .mobile-nav {
   position: absolute;
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  display: block;
 }
 
 .hamburger {
@@ -106,18 +116,16 @@ nav ul {
   border: none;
 }
 
-/* Global mobile menu styles so hamburger works on all screen sizes */
+/* Mobile menu */
 .menu {
   position: absolute;
-  top: 100%; /* drop down below the nav */
+  top: 100%;
   left: 0;
   background: var(--black);
   width: 100%;
   text-align: center;
   border-top: 1px solid var(--pink);
   z-index: 999;
-
-  /* slide-down animation */
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -127,7 +135,7 @@ nav ul {
 }
 
 .menu.open {
-  max-height: 480px; /* large enough to reveal all links */
+  max-height: 480px;
   opacity: 1;
   transform: translateY(0);
 }
@@ -179,21 +187,12 @@ nav ul {
 
 .menu .submenu a:hover {
   color: var(--white);
-  background: rgba(255,77,166,0.06);
+  background: var(--hover-bg);
 }
 
-
-nav ul li a {
-  color: var(--gray);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-nav ul li a:hover {
-  color: var(--pink);
-}
-
-/* ========== HERO SECTION ========== */
+/* =========================
+   HERO SECTION
+========================= */
 .hero {
   height: 80vh;
   display: flex;
@@ -217,7 +216,9 @@ nav ul li a:hover {
   color: var(--gray);
 }
 
-/* ========== SHOP SECTION ========== */
+/* =========================
+   SHOP SECTION
+========================= */
 .shop {
   padding: 60px 40px;
 }
@@ -236,22 +237,42 @@ nav ul li a:hover {
 
 .product {
   border: 1px solid #222;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
-  background: #111;
-  transition: transform 0.3s;
+  background: var(--card-bg);
+  transition: transform var(--transition-speed);
+  border-radius: 8px;
 }
 
 .product:hover {
   transform: translateY(-5px);
 }
 
+/* Image container to control size */
+/* =========================
+   SHOP PRODUCT IMAGES
+========================= */
+.product .img-holder {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* keeps images square, adjust as needed */
+  overflow: hidden;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background: #222; /* fallback background */
+}
+
 .product img {
   width: 100%;
-  height: 260px;
-  object-fit: cover;
-  margin-bottom: 15px;
+  height: 100%;
+  object-fit: cover; /* fills container without stretching */
+  object-position: center; /* centers the image */
+  transition: transform var(--transition-speed);
 }
+
+.product:hover img {
+  transform: scale(1.05);
+}
+
 
 .product h3 {
   margin-bottom: 10px;
@@ -269,14 +290,18 @@ nav ul li a:hover {
   color: black;
   cursor: pointer;
   font-weight: bold;
-  transition: opacity 0.3s;
+  border-radius: 5px;
+  transition: opacity var(--transition-speed);
 }
 
 .product button:hover {
   opacity: 0.8;
 }
 
-/* ========== CART ========== */
+
+/* =========================
+   CART
+========================= */
 .cart {
   position: fixed;
   top: 20px;
@@ -289,7 +314,9 @@ nav ul li a:hover {
   z-index: 1000;
 }
 
-/* ========== ABOUT SECTION ========== */
+/* =========================
+   ABOUT SECTION
+========================= */
 .about {
   padding: 60px 40px;
   text-align: center;
@@ -301,38 +328,28 @@ nav ul li a:hover {
   color: var(--gray);
 }
 
-/* ========== CONTACT SECTION ========== */
+/* =========================
+   CONTACT/INSTAGRAM SECTION
+========================= */
 .contact {
   padding: 60px 40px;
   text-align: center;
 }
 
-.contact input, .contact textarea {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  margin: 10px 0;
-  background: #111;
-  border: 1px solid #333;
-  color: var(--white);
-  border-radius: 5px;
-}
-
-.contact button {
-  padding: 10px 25px;
-  background: var(--pink);
-  border: none;
+.contact a {
+  color: var(--pink);
+  text-decoration: none;
   font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: opacity 0.3s;
+  font-size: 1.2rem;
 }
 
-.contact button:hover {
-  opacity: 0.8;
+.contact a:hover {
+  text-decoration: underline;
 }
 
-/* ========== FOOTER ========== */
+/* =========================
+   FOOTER
+========================= */
 footer {
   padding: 20px;
   text-align: center;
@@ -340,46 +357,169 @@ footer {
   color: var(--gray);
 }
 
-/* ========== RESPONSIVE ========== */
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 768px) {
   .hero h2 {
     font-size: 2.2rem;
   }
 
-  /* Keep the nav laid out horizontally, center the title, and position hamburger absolutely */
-  nav {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 20px;
-    position: relative;
-  }
-
-  .nav-links {
-    display: none; /* hide desktop links on mobile */
-  }
-
-  .products  {
+  .products {
     grid-template-columns: 1fr;
   }
 
-  /* ========== MOBILE MENU (Hamburger) ========== */
   .mobile-nav {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: block; /* show hamburger on small screens */
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
   }
 
   .hamburger {
     font-size: 30px;
-    color: var(--pink);
-    cursor: pointer;
-    padding: 8px 12px;
-    background: transparent;
-    border: none;
   }
+
+  /* =========================
+   CART PAGE / GENERAL BUTTONS
+========================= */
+.button, .cart-page button {
+  padding: 12px 25px;
+  background: var(--pink);
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity var(--transition-speed), transform var(--transition-speed);
+  text-transform: uppercase;
+}
+
+.button:hover, .cart-page button:hover {
+  opacity: 0.95;
+  transform: scale(1.05);
+}
+
+/* Optional: specific spacing for buttons in cart page */
+.cart-page button {
+  margin-top: 10px;
+}
+
+/* =========================
+   CART PAGE STYLING
+========================= */
+.cart-page {
+  max-width: 900px;
+  margin: 80px auto 60px;
+  padding: 0 20px;
+  color: var(--white);
+}
+
+.cart-page h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+}
+
+.cart-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.cart-items th,
+.cart-items td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #222;
+}
+
+.cart-items th {
+  color: var(--pink);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.cart-items td img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cart-items td p {
+  margin: 0;
+}
+
+.cart-total {
+  text-align: right;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.cart-page button {
+  padding: 12px 25px;
+  background: var(--pink);
+  color: var(--black);
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity var(--transition-speed), transform var(--transition-speed);
+  text-transform: uppercase;
+}
+
+.cart-page button:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cart-items th,
+  .cart-items td {
+    padding: 8px 10px;
+  }
+
+  .cart-items td img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cart-total {
+    font-size: 1rem;
+  }
+}
+
+/* =========================
+   CART BUTTON STYLING
+========================= */
+.cart {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #ff4da6;  /* Pink background */
+  color: black;          /* Text color */
+  padding: 12px 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.2s, background 0.3s;
+  text-align: center;
+  text-decoration: none;
+}
+
+.cart:hover {
+  background: #e6008c;  /* Darker pink on hover */
+  transform: scale(1.05);
+}
+
+
 
 
 }
+
