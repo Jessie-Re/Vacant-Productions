@@ -9,234 +9,52 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <nav>
-	<h1 class="title-container">
-		<span class="title-slide">VACANT PRODUCTIONS</span>
-		<span class="title-slide">VACANT PRODUCTIONS</span>
+  <h1 class="title-container">
     <span class="title-slide">VACANT PRODUCTIONS</span>
-	</h1>
+    <span class="title-slide">VACANT PRODUCTIONS</span>
+    <span class="title-slide">VACANT PRODUCTIONS</span>
+  </h1>
 
-	<!-- Mobile hamburger (visible on small screens) -->
-	<div class="mobile-nav">
-		<button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
-	</div>
+  <!-- Mobile hamburger -->
+  <div class="mobile-nav">
+    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
 
-	<!-- Desktop nav links (only Home remains) -->
-	<ul class="nav-links">
-		
-	</ul>
+  <!-- Desktop nav links -->
+  <ul class="nav-links"></ul>
 
-	<!-- Mobile menu (toggled via JS) -->
-	<div class="menu" id="mobileMenu" hidden>
-		<div class="menu-item">
-			<button class="submenu-toggle" data-submenu="home" aria-expanded="false">Home</button>
-			<div class="submenu" aria-hidden="true">
-				<a href="#">Overview</a>
-				<a href="#">Latest</a>
-			</div>
-		</div>
-
-		<div class="menu-item">
-			<button class="submenu-toggle" data-submenu="shop" aria-expanded="false">Shop</button>
-			<div class="submenu" aria-hidden="true">
-				<a href="#">Men</a>
-				<a href="#">Women</a>
-			</div>
-		</div>
-
-		<div class="menu-item">
-			<button class="submenu-toggle" data-submenu="about" aria-expanded="false">About</button>
-			<div class="submenu" aria-hidden="true">
-				<a href="#">Our Story</a>
-				<a href="#">Press</a>
-			</div>
-		</div>
-
-		<div class="menu-item">
-			<button class="submenu-toggle" data-submenu="contact" aria-expanded="false">Contact</button>
-			<div class="submenu" aria-hidden="true">
-				<a href="#">Support</a>
-			</div>
-		</div>
-	</div>
+  <!-- Mobile menu -->
+  <div class="menu" id="mobileMenu" hidden>
+    <div class="menu-item">
+      <button class="submenu-toggle" data-submenu="home" aria-expanded="false">Home</button>
+      <div class="submenu" aria-hidden="true">
+        <a href="#">Overview</a>
+        <a href="#">Latest</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <button class="submenu-toggle" data-submenu="shop" aria-expanded="false">Shop</button>
+      <div class="submenu" aria-hidden="true">
+        <a href="#">Men</a>
+        <a href="#">Women</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <button class="submenu-toggle" data-submenu="about" aria-expanded="false">About</button>
+      <div class="submenu" aria-hidden="true">
+        <a href="#">Our Story</a>
+        <a href="#">Press</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <button class="submenu-toggle" data-submenu="contact" aria-expanded="false">Contact</button>
+      <div class="submenu" aria-hidden="true">
+        <a href="https://www.instagram.com/vacantproductions.us" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </div>
 </nav>
 
-<div class="cart">Cart: <span id="cartCount">0</span></div>
-
-<section class="hero">
-	<div>
-		<h2>VACANT <span>STREETWEAR</span></h2>
-		<p>Changing fashion. Standing out. More than clothes.</p>
-	</div>
-</section>
-
-<section id="shop" class="shop">
-	<h2>FEATURED DROPS</h2>
-	<div class="products">
-
-		<div class="product">
-			<img src="https://via.placeholder.com/400x400" alt="">
-			<h3>Pink Vacant Tee</h3>
-			<p>$45</p>
-			<button onclick="addToCart()">Add to Cart</button>
-		</div>
-
-		<div class="product">
-			<img src="https://via.placeholder.com/400x400" alt="">
-			<h3>Retro Logo Hoodie</h3>
-			<p>$90</p>
-			<button onclick="addToCart()">Add to Cart</button>
-		</div>
-
-		<div class="product">
-			<img src="https://via.placeholder.com/400x400" alt="">
-			<h3>Vacant Cap</h3>
-			<p>$35</p>
-			<button onclick="addToCart()">Add to Cart</button>
-		</div>
-
-	</div>
-</section>
-
-<section id="about" class="about">
-	<h2>ABOUT VACANT</h2>
-	<p>
-		Vacant Productions is a streetwear brand inspired by Y2K culture,
-		underground fashion, and bold self-expression. Every piece represents
-		individuality and creative freedom.
-	</p>
-</section>
-
-<section id="contact" class="contact">
-	<h2>CONTACT</h2>
-	<input type="text" placeholder="Your Name"><br>
-	<input type="email" placeholder="Your Email"><br>
-	<textarea placeholder="Message"></textarea><br>
-	<button>Send Message</button>
-</section>
-
-<footer>
-	© 2025 Vacant Productions. All Rights Reserved.
-</footer>
-
-<script>
-let cart = 0;
-function addToCart() {
-	cart++;
-	document.getElementById("cartCount").innerText = cart;
-}
-
-// Mobile menu toggle
-const hamburger = document.querySelector('.hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-if (hamburger && mobileMenu) {
-  // initialize ARIA
-  mobileMenu.setAttribute('aria-hidden', 'true');
-  const closeMenu = () => {
-    mobileMenu.classList.remove('open');
-    mobileMenu.setAttribute('hidden', '');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    hamburger.setAttribute('aria-expanded', 'false');
-
-    // also close submenus
-    mobileMenu.querySelectorAll('.submenu').forEach(s => {
-      s.classList.remove('open');
-      s.setAttribute('aria-hidden', 'true');
-    });
-    mobileMenu.querySelectorAll('.submenu-toggle').forEach(b => b.setAttribute('aria-expanded', 'false'));
-  };
-
-  const openMenu = () => {
-    mobileMenu.classList.add('open');
-    mobileMenu.removeAttribute('hidden');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    hamburger.setAttribute('aria-expanded', 'true');
-  };
-
-  hamburger.addEventListener('click', () => {
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    if (expanded) closeMenu(); else openMenu();
-  });
-
-  // Close when a submenu link is clicked
-  mobileMenu.querySelectorAll('.submenu a').forEach(a => {
-    a.addEventListener('click', () => closeMenu());
-  });
-
-  // Submenu toggle handlers (accordion behavior: close others)
-  mobileMenu.querySelectorAll('.submenu-toggle').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const submenu = btn.nextElementSibling;
-      const opened = submenu.classList.toggle('open');
-
-      // close other submenus
-      mobileMenu.querySelectorAll('.submenu').forEach(s => {
-        if (s !== submenu) {
-          s.classList.remove('open');
-          s.setAttribute('aria-hidden', 'true');
-        }
-      });
-      mobileMenu.querySelectorAll('.submenu-toggle').forEach(b => {
-        if (b !== btn) b.setAttribute('aria-expanded', 'false');
-      });
-
-      btn.setAttribute('aria-expanded', String(opened));
-      submenu.setAttribute('aria-hidden', String(!opened));
-    });
-  });
-
-  // Desktop nav links open the related submenu (works on all screen sizes)
-  document.querySelectorAll('.nav-links a[data-submenu]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const name = link.getAttribute('data-submenu');
-      openMenu();
-      // open matching submenu
-      const targetBtn = mobileMenu.querySelector('.submenu-toggle[data-submenu="' + name + '"]');
-      if (targetBtn) targetBtn.click();
-    });
-  });
-
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
-  });
-}
-
-// Make the title slide smoothly and continuously. Uses JS to adjust speed based on content width.
-(function setupTitleSlide(){
-  const container = document.querySelector('.title-container');
-  if (!container) return;
-  const slides = Array.from(container.querySelectorAll('.title-slide'));
-  // if JS disabled or user prefers reduced motion, skip
-  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) return;
-
-  // compute required duration so the animation looks consistent regardless of text width
-  function updateDuration(){
-    const first = slides[0];
-    const slideWidth = first.getBoundingClientRect().width;
-    const containerWidth = container.getBoundingClientRect().width;
-    // distance to travel equals slideWidth (since we duplicate), speed px/s ~ 120 px/s base
-    const speed = 200; // px per second
-    const duration = Math.max(6, (slideWidth + containerWidth) / speed);
-    slides.forEach(s => s.style.animationDuration = duration + 's');
-  }
-
-  // ensure there are three copies for a smooth loop; if fewer, clone
-  while (slides.length < 3) {
-    const clone = slides[0].cloneNode(true);
-    container.appendChild(clone);
-    slides = Array.from(container.querySelectorAll('.title-slide'));
-  }
-
-  updateDuration();
-  window.addEventListener('resize', updateDuration);
-})();
-</script>
-
-</body>
-</html>
-
-
-
+<div class="car
