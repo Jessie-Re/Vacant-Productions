@@ -7,6 +7,60 @@
 <meta name="description" content="Vacant productions is a streetwear brand expanding the idea of street fashion. View our drops and stand out in our clothes.">
 <meta name="author" content="Vacant Productions">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* =========================
+     CART BUTTON & DROPDOWN
+  ========================== */
+  .cart {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4da6;
+    color: black;
+    padding: 12px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    z-index: 1000;
+    text-align: center;
+  }
+
+  .cart:hover {
+    background: #e6008c;
+    transform: scale(1.05);
+  }
+
+  .cart-dropdown {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: #111;
+    color: white;
+    border-radius: 8px;
+    padding: 15px;
+    width: 220px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: none;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .cart:hover .cart-dropdown {
+    display: block;
+  }
+
+  .cart-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cart-dropdown li {
+    margin-bottom: 8px;
+  }
+</style>
 </head>
 <body>
 
@@ -57,4 +111,168 @@
   </div>
 </nav>
 
-<div class="car
+<div class="cart">
+  View cart: <span id="cartCount">0</span>
+  <div class="cart-dropdown" id="cartDropdown">
+    <p>Your cart is empty.</p>
+  </div>
+</div>
+
+<section class="hero">
+  <div>
+    <h2>VACANT <span>STREETWEAR</span></h2>
+    <p>Changing fashion. Standing out. More than clothes.</p>
+  </div>
+</section>
+
+<section id="shop" class="shop">
+  <h2>COMING SOON.</h2>
+  <div class="products">
+    <div class="product">
+      <div class="img-holder">
+        <img src="hoodie.jpg" alt="Retro Wave Hoodie">
+      </div>
+      <h3>Retro Wave Hoodie</h3>
+      <p>$90</p>
+      <button data-product="Retro Wave Hoodie" data-price="90">Add to Cart</button>
+    </div>
+
+    <div class="product">
+      <div class="img-holder">
+        <img src="tee.jpg" alt="Coming soon">
+      </div>
+      <h3>Coming Soon Tee</h3>
+      <p>$45</p>
+      <button data-product="Coming Soon Tee" data-price="45">Add to Cart</button>
+    </div>
+
+    <div class="product">
+      <div class="img-holder">
+        <img src="cap.jpg" alt="Coming soon">
+      </div>
+      <h3>Coming Soon Cap</h3>
+      <p>$35</p>
+      <button data-product="Coming Soon Cap" data-price="35">Add to Cart</button>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <h2>ABOUT VACANT</h2>
+  <p>
+    Vacant Productions is a streetwear brand inspired by Y2K culture,
+    underground fashion, and bold self-expression. Every piece represents
+    individuality and creative freedom.
+  </p>
+</section>
+
+<section id="contact" class="contact">
+  <h2>CONTACT</h2>
+  <p>Follow us on Instagram: <a href="https://www.instagram.com/vacantproduction.us?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">@vacantproductions.us</a></p>
+</section>
+
+<footer>
+  © 2025 Vacant Productions. All Rights Reserved.
+</footer>
+
+<script>
+// ---------------------------
+// Cart
+// ---------------------------
+let cartCountEl = document.getElementById('cartCount');
+let cartDropdown = document.getElementById('cartDropdown');
+let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+function updateCartCount() {
+  const totalQty = cartItems.reduce((sum, item) => sum + item.qty, 0);
+  cartCountEl.innerText = totalQty;
+  updateCartDropdown();
+}
+
+function updateCartDropdown() {
+  if (cartItems.length === 0) {
+    cartDropdown.innerHTML = "<p>Your cart is empty.</p>";
+    return;
+  }
+  let html = "<ul>";
+  cartItems.forEach(item => {
+    html += `<li>${item.name} x${item.qty} - $${(item.price * item.qty).toFixed(2)}</li>`;
+  });
+  html += "</ul>";
+  cartDropdown.innerHTML = html;
+}
+
+// Add product to cart
+document.querySelectorAll('.product button').forEach(button => {
+  button.addEventListener('click', () => {
+    const productName = button.getAttribute('data-product');
+    const price = parseFloat(button.getAttribute('data-price'));
+    const img = button.closest('.product').querySelector('img').src;
+
+    const existingItem = cartItems.find(item => item.name === productName);
+    if (existingItem) {
+      existingItem.qty += 1;
+    } else {
+      cartItems.push({ name: productName, price: price, img: img, qty: 1 });
+    }
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    updateCartCount();
+  });
+});
+
+// Initial cart count
+updateCartCount();
+
+// Redirect to cart page on click
+document.querySelector('.cart').addEventListener('click', () => {
+  window.location.href = 'cart.html';
+});
+
+// ---------------------------
+// Mobile Menu
+// ---------------------------
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+if (hamburger && mobileMenu) {
+  mobileMenu.setAttribute('aria-hidden', 'true');
+
+  const closeMenu = () => {
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('hidden', '');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.querySelectorAll('.submenu').forEach(s => {
+      s.classList.remove('open');
+      s.setAttribute('aria-hidden', 'true');
+    });
+    mobileMenu.querySelectorAll('.submenu-toggle').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  };
+
+  const openMenu = () => {
+    mobileMenu.classList.add('open');
+    mobileMenu.removeAttribute('hidden');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    hamburger.setAttribute('aria-expanded', 'true');
+  };
+
+  hamburger.addEventListener('click', () => {
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+    if (expanded) closeMenu(); else openMenu();
+  });
+
+  mobileMenu.querySelectorAll('.submenu-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const submenu = btn.nextElementSibling;
+      const opened = submenu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', opened);
+      submenu.setAttribute('aria-hidden', !opened);
+    });
+  });
+}
+</script>
+
+</body>
+</html>
+
+
